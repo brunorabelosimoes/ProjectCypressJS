@@ -1,9 +1,14 @@
 # 📑 Índice de Documentação - ProjectCypressJS
 
+> Todos os arquivos de documentação estão organizados nesta pasta `docs/`.  
+> O [README.md](../README.md) na raiz do projeto contém o guia geral.
+
+---
+
 ## 🎯 Começar Por Aqui
 
 ### 📍 **LEIA PRIMEIRO (5 minutos)**
-1. **[IMPLEMENTATION_SUMMARY.md](./IMPLEMENTATION_SUMMARY.md)** ← SUA SITUAÇÃO AGORA
+1. **[IMPLEMENTATION_SUMMARY.md](./IMPLEMENTATION_SUMMARY.md)** ← RESUMO EXECUTIVO
    - Resumo visual de tudo que mudou
    - Problemas encontrados e corrigidos
    - Resultados das melhorias
@@ -13,20 +18,25 @@
    - Antes vs Depois visual
    - Próximos 3 passos
 
-### 📚 **DEPOIS LEIA (30 minutos)**
-3. **[README.md](./README.md)** - Guia Principal
-   - Como usar o novo setup
-   - Exemplos de código
-   - Troubleshooting completo
+### 📚 **DOCUMENTAÇÃO PRINCIPAL**
+3. **[README.md](../README.md)** - Guia Principal do Projeto
+   - Como instalar e executar
+   - Estrutura do repositório
+   - Integração contínua
 
-4. **[QA_BEST_PRACTICES.md](./QA_BEST_PRACTICES.md)** - Guia Completo
+4. **[QA_BEST_PRACTICES.md](./QA_BEST_PRACTICES.md)** - Boas Práticas
    - 12 melhorias explicadas
    - Como estruturar novos testes
    - Checklist para cada teste
    - Roadmap completo
 
+5. **[Evidences-Generator.md](./Evidences-Generator.md)** - Gerador de Evidências ⭐
+   - Como usar `cy.startEvidences()`, `cy.takeScreenshot()`, `cy.finishEvidences()`
+   - Detalhes da capa do PDF (logo, ambiente, status, tempo)
+   - Estrutura de arquivos e boas práticas
+
 ### 🔍 **SE PRECISAR DE DETALHES**
-5. **[IMPROVEMENTS.md](./IMPROVEMENTS.md)** - Análise Técnica
+6. **[IMPROVEMENTS.md](./IMPROVEMENTS.md)** - Análise Técnica
    - Detalhes de cada problema
    - Métricas antes/depois
    - Dicas avançadas
@@ -37,12 +47,16 @@
 
 ### Documentação 📄
 ```
-├── README.md ⭐ Guia principal
-├── QUICK_START.md ⭐ Início rápido (5 min)
-├── QA_BEST_PRACTICES.md ⭐ Boas práticas (30 min)
-├── IMPROVEMENTS.md ⭐ Detalhes técnicos
-├── IMPLEMENTATION_SUMMARY.md ⭐ Resumo executivo (5 min)
-└── INDEX.md (Este arquivo)
+ProjectCypressJS/
+├── README.md                    ⭐ Guia principal (raiz do projeto)
+└── docs/
+    ├── INDEX.md                 🗂️ Este arquivo
+    ├── Evidences-Generator.md  ⭐ Documentação completa do gerador de evidências
+    ├── QUICK_START.md           ⭐ Início rápido (5 min)
+    ├── QA_BEST_PRACTICES.md     ⭐ Boas práticas (30 min)
+    ├── IMPROVEMENTS.md          ⭐ Detalhes técnicos
+    ├── IMPLEMENTATION_SUMMARY.md ⭐ Resumo executivo (5 min)
+    └── RESUMO_FINAL.md          Resumo das mudanças implementadas
 ```
 
 ### Código - arquivos novos ⭐
@@ -94,8 +108,9 @@ cypress/
 3. Copiar-colar e adaptar
 
 ### "Tenho um erro/problema" (5 minutos)
-1. Procurar em [README.md](./README.md) - Seção "Troubleshooting"
+1. Procurar em [README.md](../README.md) - Secão "Troubleshooting"
 2. Ou em [QA_BEST_PRACTICES.md](./QA_BEST_PRACTICES.md) - Seção "Troubleshooting"
+3. Para problemas com PDF/evidências: [Evidences-Generator.md](./Evidences-Generator.md) - Solucão de Problemas
 
 ---
 
@@ -104,13 +119,14 @@ cypress/
 | Objetivo | Arquivo | Tempo |
 |----------|---------|-------|
 | Começar AGORA | [QUICK_START.md](./QUICK_START.md) | 5 min |
-| Entender tudo | [README.md](./README.md) | 20 min |
+| Guia geral do projeto | [README.md](../README.md) | 20 min |
 | Melhores práticas | [QA_BEST_PRACTICES.md](./QA_BEST_PRACTICES.md) | 40 min |
 | Detalhes técnicos | [IMPROVEMENTS.md](./IMPROVEMENTS.md) | 30 min |
-| Ver exemplos | [test-examples.cy.js](./cypress/e2e/test-examples.cy.js) | 15 min |
-| Criar novo Page Object | [dashboardPage.js](./cypress/pages/dashboardPage.js) | - |
-| Dados de teste | [testData.js](./cypress/config/testData.js) | - |
-| Troubleshooting | [README.md](./README.md#-troubleshooting) | 5 min |
+| Gerador de evidências | [Evidences-Generator.md](./Evidences-Generator.md) | 10 min |
+| Ver exemplos | [../cypress/e2e/test-examples.cy.js](../cypress/e2e/test-examples.cy.js) | 15 min |
+| Criar novo Page Object | [../cypress/pages/dashboardPage.js](../cypress/pages/dashboardPage.js) | - |
+| Dados de teste | [../cypress/config/testData.js](../cypress/config/testData.js) | - |
+| Troubleshooting | [README.md](../README.md) | 5 min |
 
 ---
 

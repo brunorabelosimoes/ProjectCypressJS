@@ -6,9 +6,12 @@ const path = require("path");
  * é delegado para `cy.task` configuradas no `cypress.config.js`.
  */
 class EvidencesGenerator {
-  constructor(suiteName, testName) {
+  constructor(suiteName, testName, metadata = {}) {
     this.suiteName = suiteName;
     this.testName = testName;
+    this.startTime = Date.now();
+    this.browser = metadata.browser || 'N/A';
+    this.environment = metadata.environment || 'HOM';
     // usaremos uma pasta relativa para o screenshotsFolder; o task sabe combinar
     this.screenshotsRel = path.posix.join("temp", suiteName, testName); // sempre com barras '/'
     this.evidencesFolder = path.join("evidences", suiteName);
@@ -65,13 +68,24 @@ class EvidencesGenerator {
    * @returns {Promise} Promise que resolve quando o PDF for criado
    */
 
-  generatePDF() {
+  generatePDF(status = 'passed') {
+    const durationMs = Date.now() - this.startTime;
+    const pad = (n) => String(n).padStart(2, '0');
+    const h = Math.floor(durationMs / 3600000);
+    const m = Math.floor((durationMs % 3600000) / 60000);
+    const s = Math.floor((durationMs % 60000) / 1000);
+    const executionTime = `${pad(h)}:${pad(m)}:${pad(s)}`;
+
     // delega toda a geração para o processo Node via task
     return cy.task("generatePdf", {
       suiteName: this.suiteName,
       testName: this.testName,
       screenshotsFolderRel: this.screenshotsRel,
       evidencesFolder: this.evidencesFolder,
+      environment: this.environment,
+      browser: this.browser,
+      executionTime,
+      status,
     });
   }
 
@@ -87,8 +101,8 @@ class EvidencesGenerator {
   /**
    * Finaliza o processo: gera o PDF e limpa os screenshots
    */
-  async finish() {
-    await this.generatePDF();
+  async finish(status = 'passed') {
+    await this.generatePDF(status);
     await this.deleteScreenshots();
   }
 }

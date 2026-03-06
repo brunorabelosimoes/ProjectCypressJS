@@ -55,7 +55,9 @@ npm run report:generate
 
 ## Estrutura do repositório (resumo)
 
+- `docs/` — toda a documentação do projeto ([INDEX.md](docs/INDEX.md) como ponto de entrada)
 - `cypress/` — testes, páginas (Page Objects), configuração e evidências
+  - `cypress/assets/` — assets estáticos (ex: `logo.png` para a capa do PDF)
   - `cypress/config/testData.js` — dados centralizados (usuários, timeouts, etc.)
   - `cypress/pages/` — Page Objects (ex: `basePage.js`, `loginPage.js`, `dashboardPage.js`)
   - `cypress/e2e/` — especificações de teste (`*.cy.js`, `*.feature`)
@@ -80,12 +82,21 @@ Variáveis de ambiente (opcional):
 
 ## Geração de evidências
 
-O projeto inclui utilitários para capturar screenshots e consolidar evidências em PDF.
+O projeto inclui um gerador de evidências completo que cria PDFs com capa profissional automaticamente.
 
-- Screenshots temporários: `cypress/screenshots/...` durante execução
-- PDFs finais: `evidences/` (organizados por suíte/teste)
+- Screenshots temporários: `cypress/screenshots/temp/` durante a execução
+- PDFs finais: `evidences/<nome-da-suite>/` (organizados por suíte)
+- Logo personalizada: `cypress/assets/logo.png`
 
-Verifique `cypress/support/evidences-generator/EvidencesGenerator.js` para entender o fluxo de criação de PDFs.
+Documentação completa: [`docs/Evidences-Generator.md`](docs/Evidences-Generator.md)
+
+Uso rápido nos testes:
+```javascript
+beforeEach(() => cy.startEvidences());
+afterEach(() => { cy.takeScreenshot('Tear Down'); cy.finishEvidences(); });
+// durante o teste:
+cy.takeScreenshot('Título descritivo');
+```
 
 ---
 

@@ -12,11 +12,17 @@ let atualGenerator = null;
  * Se não passar testName, captura automaticamente do it()
  * Uso: cy.startEvidences() ou cy.startEvidences('Nome customizado')
  */
-Cypress.Commands.add("startEvidences", function(testName) {
+Cypress.Commands.add("startEvidences", function(testName, options = {}) {
   // Captura o nome da suite (describe) e do teste (it)
   const suiteName = this.currentTest.parent.title;
   const name = testName || this.currentTest.title;
-  atualGenerator = new EvidencesGenerator(suiteName, name);
+  const browser = Cypress.browser
+    ? `${Cypress.browser.displayName} ${Cypress.browser.majorVersion}`
+    : 'N/A';
+  atualGenerator = new EvidencesGenerator(suiteName, name, {
+    browser,
+    environment: options.environment || 'HOM',
+  });
   cy.log(`📋 Gerador de evidências iniciado: ${suiteName} > ${name}`);
 });
 
@@ -36,12 +42,13 @@ Cypress.Commands.add("takeScreenshot", (title, captureMode = "viewport") => {
  * Finaliza a geração de evidências: cria o PDF e limpa screenshots
  * Uso: cy.finishEvidences()
  */
-Cypress.Commands.add("finishEvidences", () => {
+Cypress.Commands.add("finishEvidences", function() {
   if (!atualGenerator) {
     throw new Error("❌ Nenhum gerador de evidências foi iniciado!");
   }
+  const status = (this.currentTest && this.currentTest.state) || 'passed';
   return cy.wrap(null).then(() => {
-    return atualGenerator.finish();
+    return atualGenerator.finish(status);
   });
 });
 
