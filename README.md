@@ -2,6 +2,8 @@
 
 # ProjectCypressJS
 
+[![CI](https://github.com/brunorabelosimoes/ProjectCypressJS/actions/workflows/cypress.yml/badge.svg)](https://github.com/brunorabelosimoes/ProjectCypressJS/actions)
+
 Automação de testes end-to-end com Cypress para a aplicação OrangeHRM (exemplos, boas práticas e geração de evidências em PDF).
 
 Status: **Refatorado** — estrutura padrão de Page Objects, dados centralizados e comandos customizados.
