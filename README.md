@@ -2,9 +2,16 @@
 
 # ProjectCypressJS
 
-[![CI](https://github.com/brunorabelosimoes/ProjectCypressJS/actions/workflows/cypress.yml/badge.svg)](https://github.com/brunorabelosimoes/ProjectCypressJS/actions)
+[![CI](https://github.com/brunorabelosimoes/ProjectCypressJS/actions/workflows/cypress.yml/badge.svg)](https://github.com/brunorabelosimoes/ProjectCypressJS/actions/workflows/cypress.yml)
+[![Node.js](https://img.shields.io/badge/node-%3E%3D14-brightgreen?logo=node.js)](https://nodejs.org/)
+[![Cypress](https://img.shields.io/badge/cypress-15.x-brightgreen?logo=cypress)](https://www.cypress.io/)
+[![License: ISC](https://img.shields.io/badge/license-ISC-blue.svg)](LICENSE)
+[![Last Commit](https://img.shields.io/github/last-commit/brunorabelosimoes/ProjectCypressJS)](https://github.com/brunorabelosimoes/ProjectCypressJS/commits/main)
+[![GitHub Stars](https://img.shields.io/github/stars/brunorabelosimoes/ProjectCypressJS?style=social)](https://github.com/brunorabelosimoes/ProjectCypressJS/stargazers)
 
 Automação de testes end-to-end com Cypress para a aplicação OrangeHRM (exemplos, boas práticas e geração de evidências em PDF).
+
+> **Quer experimentar?** &nbsp;[▶ Ver execuções do CI](https://github.com/brunorabelosimoes/ProjectCypressJS/actions/workflows/cypress.yml) &nbsp;·&nbsp; [⭐ Dar uma estrela](https://github.com/brunorabelosimoes/ProjectCypressJS/stargazers) &nbsp;·&nbsp; [🐛 Abrir issue](https://github.com/brunorabelosimoes/ProjectCypressJS/issues/new)
 
 Status: **Refatorado** — estrutura padrão de Page Objects, dados centralizados e comandos customizados.
 
