@@ -66,17 +66,20 @@ describe("OrangeHRM - Exemplos de Testes Bem Estruturados", () => {
     cy.takeScreenshot("01-Dashboard inicial");
 
     // Act 1
-    dashboard.clickMainMenu("My Info");
+    // dashboard.clickMainMenu("My Info");
+    dashboard.navigateToMyInfo();
     
     // Assert 1
-    myInfo.waitForPersonalDetails();
+    // myInfo.waitForPersonalDetails();
+    myInfo.waitForMyInfoPage();
     cy.takeScreenshot("02-Seção My Info acessada");
 
     // Act 2 - Volta ao dashboard
     cy.visit("/web/index.php/dashboard/index");
     
     // Assert 2
-    dashboard.isDashboardVisible();
+    // dashboard.isDashboardVisible();
+    dashboard.verifyDashboardLoaded()
     cy.takeScreenshot("03-Retornou ao dashboard");
   });
 
@@ -92,11 +95,12 @@ describe("OrangeHRM - Exemplos de Testes Bem Estruturados", () => {
     cy.takeScreenshot("01-Login realizado");
 
     // Act
-    dashboard.clickMainMenu("My Info");
-    myInfo.waitForPersonalDetails();
+    // dashboard.clickMainMenu("My Info");
+    dashboard.navigateToMyInfo();
+    myInfo.waitForMyInfoPage();
     
     // Assert - Obtém e verifica dados
-    myInfo.getFirstName().then((firstName) => {
+    myInfo.fillFirstName('[name="firstName"]').then((firstName) => {
       cy.log(`✓ Nome encontrado: ${firstName}`);
       cy.verifyVisible('input[name="firstName"]');
     });
@@ -119,7 +123,7 @@ describe("OrangeHRM - Exemplos de Testes Bem Estruturados", () => {
     
     // Assert - Aguarde elemento antes de clicar
     cy.waitForElement('button[type="submit"]', testData.timeout.default);
-    cy.contains("Login").click();
+    cy.get('button[type="submit"]').click();
 
     // Assert - Aguarde dashboard
     dashboard.waitForDashboard();

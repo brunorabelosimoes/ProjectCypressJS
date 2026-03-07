@@ -61,7 +61,7 @@ class DashboardPage extends BasePage {
    * Navega para Admin
    */
   navigateToAdmin() {
-    return cy.contains('Ajdmin', { timeout: 5000 }).click();
+    return cy.contains('Admin', { timeout: 5000 }).click();
   }
 
   /**
