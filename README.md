@@ -2,7 +2,7 @@
 
 # ProjectCypressJS
 
-[![CI](https://github.com/brunorabelosimoes/ProjectCypressJS/actions/workflows/cypress.yml/badge.svg)](https://github.com/brunorabelosimoes/ProjectCypressJS/actions/workflows/cypress.yml)
+[![CI](https://github.com/brunorabelosimoes/ProjectCypressJS/actions/workflows/cypress.yml/badge.svg?branch=main)](https://github.com/brunorabelosimoes/ProjectCypressJS/actions/workflows/cypress.yml)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D14-brightgreen?logo=node.js)](https://nodejs.org/)
 [![Cypress](https://img.shields.io/badge/cypress-15.x-brightgreen?logo=cypress)](https://www.cypress.io/)
 [![License: ISC](https://img.shields.io/badge/license-ISC-blue.svg)](LICENSE)
