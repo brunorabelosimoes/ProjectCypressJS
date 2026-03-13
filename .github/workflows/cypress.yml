@@ -18,6 +18,8 @@ jobs:
       - name: Install Cypress binary
         run: npx cypress install
       - name: Run Cypress (mochawesome)
+        env:
+          CYPRESS_CI: "true"
         run: npx cypress run --reporter mochawesome --reporter-options reportDir=cypress/reports,overwrite=false,html=false,json=true
       - name: Merge reports
         run: npx mochawesome-merge cypress/reports/*.json > cypress/reports/report.json || true

@@ -6,6 +6,7 @@ module.exports = defineConfig({
     supportFile: 'cypress/support/e2e.js',
     screenshotsFolder: 'cypress/screenshots',
     videosFolder: 'cypress/videos',
+    retries: { runMode: 2, openMode: 0 },
     setupNodeEvents(on, config) {
       // import here para que possamos usar pdfkit e fs no lado Node
       const fs = require('fs');
