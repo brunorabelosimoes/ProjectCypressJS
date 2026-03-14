@@ -59,18 +59,20 @@ class LoginPage extends BasePage {
    * @param {string} username - Nome de usuário
    * @param {string} password - Senha
    */
-  login(username = 'admin', password = 'admin123') {
+  login(username, password) {
+    const user = username ?? Cypress.env('ADMIN_USER') ?? 'Admin';
+    const pass = password ?? Cypress.env('ADMIN_PASS') ?? 'admin123';
     this.visit();
-    this.fillUsername(username);
-    this.fillPassword(password);
+    this.fillUsername(user);
+    this.fillPassword(pass);
     this.clickSubmit();
   }
 
   /**
-   * Realiza login como admin
+   * Realiza login como admin usando credenciais de cypress.env.json
    */
   loginAsAdmin() {
-    this.login('admin', 'admin123');
+    this.login();
   }
 
   /**

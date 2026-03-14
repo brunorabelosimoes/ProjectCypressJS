@@ -2,6 +2,7 @@ const { defineConfig } = require('cypress')
 
 module.exports = defineConfig({
   e2e: {
+    // Valor padrão; sobreescrito por BASE_URL em cypress.env.json ou --env BASE_URL=...
     baseUrl: 'https://opensource-demo.orangehrmlive.com',
     supportFile: 'cypress/support/e2e.js',
     screenshotsFolder: 'cypress/screenshots',
@@ -13,6 +14,11 @@ module.exports = defineConfig({
       const path = require('path');
       const os = require('os');
       const PDFDocument = require('pdfkit');
+
+      // Sobrescreve baseUrl se o env BASE_URL estiver definido (multi-ambiente)
+      if (config.env.BASE_URL) {
+        config.baseUrl = config.env.BASE_URL;
+      }
 
       // simples gerenciador de estado em memória por teste
       let generators = {};
@@ -91,7 +97,7 @@ module.exports = defineConfig({
         y = drawInfoSection(doc, NAVY, SLATE, 'INFORMAÇÕES TÉCNICAS', [
           ['Navegador',         browser],
           ['Framework',         'Cypress'],
-          ['Pipeline CI/CD',    'Jenkins'],
+          ['Pipeline CI/CD',    meta.ciCdTool],
           ['Tempo de Execução', executionTime],
         ], M, CW, y);
 
@@ -167,13 +173,16 @@ module.exports = defineConfig({
               drawCoverPage(doc, {
                 suiteName,
                 testName,
-                environment:  environment || 'HOM',
-                responsible:  os.userInfo().username,
+                environment:   environment  || config.env.ENVIRONMENT  || 'HOM',
+                responsible:   config.env.RESPONSIBLE || os.userInfo().username,
                 dateFormatted,
-                browser:      browser || 'N/A',
+                browser:       browser      || 'N/A',
                 executionTime: executionTime || '00:00:00',
-                status:       status || 'passed',
-                logoPath,
+                status:        status        || 'passed',
+                logoPath:      config.env.LOGO_PATH
+                                 ? require('path').join(config.projectRoot, config.env.LOGO_PATH)
+                                 : logoPath,
+                ciCdTool:      config.env.CI_CD_TOOL || 'Local',
               });
 
               // ── Screenshots (uma por página) ─────────────────────────────────

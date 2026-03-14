@@ -1,39 +1,79 @@
-name: Cypress Tests
+name: 🧪 Cypress Tests
+
 on:
   push:
-    branches: [main, master]
+    branches: [main, master, develop]
   pull_request:
     branches: [main, master]
+
 jobs:
-  e2e:
+  cypress-run:
+    name: Run Cypress — ${{ matrix.browser }}
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chrome, firefox]
+
     steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js
+      # ── 1. Código ──────────────────────────────────────────────────────────
+      - name: 📥 Checkout do repositório
+        uses: actions/checkout@v4
+
+      # ── 2. Node.js ─────────────────────────────────────────────────────────
+      - name: 🟢 Configurar Node.js 18
         uses: actions/setup-node@v4
         with:
-          node-version: 18
-      - name: Install dependencies
+          node-version: '18'
+          cache: 'npm'
+
+      # ── 3. Dependências ────────────────────────────────────────────────────
+      - name: 📦 Instalar dependências
         run: npm ci
-      - name: Install Cypress binary
-        run: npx cypress install
-      - name: Run Cypress (mochawesome)
+
+      # ── 4. Arquivo de ambiente (gerado a partir dos Secrets/Variables do GitHub)
+      - name: 🔑 Criar cypress.env.json
         env:
-          CYPRESS_CI: "true"
-        run: npx cypress run --reporter mochawesome --reporter-options reportDir=cypress/reports,overwrite=false,html=false,json=true
-      - name: Merge reports
-        run: npx mochawesome-merge cypress/reports/*.json > cypress/reports/report.json || true
-      - name: Generate HTML report
-        run: npx marge cypress/reports/report.json -f report -o cypress/reports/html || true
-      - name: Upload reports
+          BASE_URL:     ${{ vars.BASE_URL || 'https://opensource-demo.orangehrmlive.com' }}
+          ADMIN_USER:   ${{ secrets.ADMIN_USER }}
+          ADMIN_PASS:   ${{ secrets.ADMIN_PASS }}
+          COMPANY_NAME: ${{ vars.COMPANY_NAME || 'Equipe QA' }}
+        run: |
+          node -e "
+            const fs = require('fs');
+            const env = {
+              BASE_URL:     process.env.BASE_URL     || 'https://opensource-demo.orangehrmlive.com',
+              ADMIN_USER:   process.env.ADMIN_USER   || 'Admin',
+              ADMIN_PASS:   process.env.ADMIN_PASS   || 'admin123',
+              ENVIRONMENT:  'CI — GitHub Actions',
+              CI_CD_TOOL:   'GitHub Actions',
+              COMPANY_NAME: process.env.COMPANY_NAME || 'Equipe QA'
+            };
+            fs.writeFileSync('cypress.env.json', JSON.stringify(env, null, 2));
+            console.log('cypress.env.json criado com sucesso.');
+          "
+
+      # ── 5. Testes ──────────────────────────────────────────────────────────
+      - name: 🚀 Executar testes (${{ matrix.browser }})
+        run: npm run cy:run:full -- --browser ${{ matrix.browser }}
+        env:
+          CI: true
+
+      # ── 6. Upload: PDFs de evidência ───────────────────────────────────────
+      - name: 📄 Upload — Evidências PDF
+        uses: actions/upload-artifact@v4
         if: always()
-        uses: actions/upload-artifact@v4
         with:
-          name: cypress-reports
+          name: evidencias-${{ matrix.browser }}-${{ github.run_number }}
+          path: evidences/
+          retention-days: 30
+
+      # ── 7. Upload: Relatório Mochawesome ───────────────────────────────────
+      - name: 📊 Upload — Relatório HTML (Mochawesome)
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: relatorio-mochawesome-${{ matrix.browser }}-${{ github.run_number }}
           path: cypress/reports/html/
-      - name: Upload screenshots on failure
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: cypress-screenshots
-          path: cypress/screenshots/
+          retention-days: 30

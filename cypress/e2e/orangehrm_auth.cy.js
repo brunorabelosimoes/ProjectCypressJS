@@ -59,22 +59,43 @@ describe("OrangeHRM - Autenticação e fluxos básicos", () => {
   // Em CI, dados do demo são resetados periodicamente — use dados próprios para estabilizar.
   const itOrSkip = Cypress.env('CI') ? it.skip : it;
   itOrSkip("Admin adiciona novo usuário", () => {
+    const newUser = `user_test_${Date.now()}`;
+
     loginPage.loginAsAdmin();
     dashboardPage.verifyDashboardLoaded();
     cy.takeScreenshot("Dashboard carregado");
-    
+
     dashboardPage.navigateToAdmin();
     adminPage.verifyAdminPageLoaded();
     cy.takeScreenshot("Página de usuários do sistema carregada");
-    
-    const newUser = `user_${Date.now()}`;
+
     adminPage.createNewUser({
       username: newUser,
       employee: 'Emily Jones',
       password: 'Password123!'
     });
-    
     cy.takeScreenshot("Novo usuário criado com sucesso");
+
+    // ── Teardown: remove o usuário criado via API ──────────────────────────
+    // cy.request reutiliza os cookies de sessão do login anterior
+    cy.request({
+      method: 'GET',
+      url:    '/web/index.php/api/v2/system/users?limit=100&offset=0',
+      headers: { 'Accept': 'application/json' },
+      failOnStatusCode: false,
+    }).then((res) => {
+      if (res.status !== 200) return;
+      const found = (res.body.data || []).find((u) => u.userName === newUser);
+      if (found) {
+        cy.request({
+          method: 'DELETE',
+          url:    '/web/index.php/api/v2/system/users',
+          body:   { ids: [found.id] },
+          headers: { 'Content-Type': 'application/json' },
+          failOnStatusCode: false,
+        });
+      }
+    });
   });
 });
 

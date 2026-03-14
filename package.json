@@ -4,13 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "cy:open": "cypress open",
-    "cy:run": "cypress run",
+    "setup":           "node scripts/setup.js",
+    "cy:open":         "cypress open",
+    "cy:run":          "cypress run",
     "cy:run:parallel": "cypress run --record --parallel",
-    "cy:run:report": "cypress run --reporter mochawesome --reporter-options reportDir=cypress/reports,overwrite=false,html=false,json=true",
-    "report:merge": "mochawesome-merge cypress/reports/*.json > cypress/reports/report.json",
+    "cy:run:report":   "cypress run --reporter mochawesome --reporter-options reportDir=cypress/reports,overwrite=false,html=false,json=true",
+    "report:merge":    "mochawesome-merge cypress/reports/*.json > cypress/reports/report.json",
     "report:generate": "marge cypress/reports/report.json -f report -o cypress/reports/html",
-    "test": "npm run cy:run"
+    "report":          "npm run report:merge && npm run report:generate",
+    "cy:run:full":     "npm run cy:run:report && npm run report",
+    "test":            "npm run cy:run:full"
   },
   "keywords": [],
   "author": "",

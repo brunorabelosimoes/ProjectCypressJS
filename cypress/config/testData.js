@@ -5,9 +5,15 @@
 
 module.exports = {
   users: {
-    admin: {
-      username: 'Admin',
-      password: 'admin123',
+    /**
+     * Credenciais lidas de cypress.env.json (ou variáveis de ambiente de CI).
+     * Nunca coloque senhas reais diretamente aqui.
+     */
+    get admin() {
+      return {
+        username: Cypress.env('ADMIN_USER') || 'Admin',
+        password: Cypress.env('ADMIN_PASS') || 'admin123',
+      };
     },
     invalid: {
       username: 'usuario_invalido',
